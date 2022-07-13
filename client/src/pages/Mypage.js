@@ -1,7 +1,9 @@
 import React,{ useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 export const Mypages=styled.div`
 margin: auto;
 width: 600px;
@@ -94,7 +96,7 @@ export default function Mypage(props) {
   };
   console.log(props)
   const handleSignout =() =>{
-    axios.delete(`/users/${props.userinfo.id}`)
+    axios.delete(`${process.env.REACT_APP_API_URL}/users/${props.userinfo.id}`)
     .then((data) => {
       navigate('/')
     })

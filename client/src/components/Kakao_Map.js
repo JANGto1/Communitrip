@@ -28,7 +28,7 @@ const MapContainer = ({ searchPlace, setCoordinate, setpostInfo, coordinate }) =
           displayMarker(data[i]);
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
           //setCoordinate(data[i])
-          setpostInfo({
+          setCoordinate({
             longitude: data[i].x,
             latitude: data[i].y
           })
@@ -46,7 +46,7 @@ const MapContainer = ({ searchPlace, setCoordinate, setpostInfo, coordinate }) =
         
       });
     }
-  }, [searchPlace]);
+  }, [searchPlace,setCoordinate]);
 
     return (
         <div id='myMap' style={{

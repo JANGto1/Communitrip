@@ -1,9 +1,10 @@
 import React,{ useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form } from "react-bootstrap";
 import styled from 'styled-components';
 import  {checkPassword}  from './Signup/Validation'
+axios.defaults.withCredentials = true;
 
 const Errmessage = styled(Form.Text)`
 color: red;

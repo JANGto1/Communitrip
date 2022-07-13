@@ -11,17 +11,10 @@ import Board from './pages/Board';
 import Boardpostform from './pages/Boardpostform';
 import styled from 'styled-components';
 import Myboard from './pages/Myboard';
-import KakaoLogin from './pages/KakaoLogin'
-import Post_edit from './pages/Create_post';
 import Create_post from './pages/Create_post';
 import Post from './pages/Post';
 import Commentsform from './pages/Commentsform'
 import Editpost from './pages/Editpost'
-
-export const LogImg = styled.img`
-width: 3vw;
-height: 5vh;
-`
 
 export const ModalBackdrop = styled.div`
 position: fixed;
@@ -64,7 +57,10 @@ export const Icon = styled.img`
 width: 50px;
 height: 50px;
 `
-
+export const LogImg = styled.img`
+width: 3vw;
+height: 5vh;
+`
 function App() {
     const navigate = useNavigate();
     const [postsByTags, setPostsByTags] = useState('');
@@ -72,10 +68,9 @@ function App() {
     const [postsinfo, setPostsinfo]=useState()
     const [tags, setTags] = useState()
     const [onepostinfo, setonepostinfo] =useState({});
-
-
+    
   const isPosts = () => {
-    axios.get(`/posts`).then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/posts`).then((res) => {
       const test = res.data.data
       setPostsinfo(test)
     }).catch(error => {
@@ -83,7 +78,7 @@ function App() {
     })
   }
   const isTags = () => {
-    axios.get(`/tags`).then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/tags`).then((res) => {
       const test = res.data.data
       setTags(test)
     }).catch(error => {
@@ -92,12 +87,13 @@ function App() {
   }
 
   const isAuthenticated = () => {
-    axios.get(`/users/auth`).then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/auth`).then((res) => {
 
       if (res.data.data.userInfo !== null) {
         const test = res.data.data.userInfo;
         setUserinfo(test);
         setIsLogin(true);
+        
       }
 
     }).catch(error => {
@@ -143,7 +139,7 @@ function App() {
     <div className="App">
       <Navbar bg="light" variant="light" className="nav">
         <Container>
-          <Navbar.Brand href="/"><LogImg src="img/log.png" />Communitrip</Navbar.Brand>
+        <Navbar.Brand href="/"><LogImg src="img/log.png" />Communitrip</Navbar.Brand>
           <Nav className="nav justify-content-end" >
             <Nav.Link
               href="board"
@@ -169,55 +165,56 @@ function App() {
             >
               마이페이지
             </Nav.Link>
-            <Nav.Link
-
-              onClick={() => {
-                openLogoutHandler();
-              }}
-            >
-              Logout
-            </Nav.Link>
-            <Nav.Link
+      {isLogin ===false ?             <Nav.Link
               onClick={() => {
                 onLoginModalHandler()
-              }}
-            >
-              Login
-              {onLoginModal ? <Login /> : null}
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-      {isLogout ? <ModalBackdrop onClick={openLogoutHandler}>
-        <ModalView onClick={(event) => { event.stopPropagation() }}>
-          <center>
-            <br />
-            <div>
-              로그아웃 하시겠습니까?
-            </div>
-            <MypageBtn>
-              <ModalBtn onClick={() => { openLogoutHandler(); handleLogout() }}>
-                확인
-              </ModalBtn>
-            </MypageBtn>
-          </center>
-        </ModalView>
-      </ModalBackdrop> : null}
-      <Routes>
-        <Route path="/" element={<Main />}   userinfo = {userinfo} />
-        <Route path="/mypage" element={<Mypage userinfo ={userinfo} handleLogout={handleLogout} />} />
-        <Route path="/login" element={<Login handleResponseSuccess={handleResponseSuccess}/>} />
-        <Route path="/edit_profile" element={<Edit_profile userinfo={userinfo} />} />
-        <Route path="/board" element={<Board postsinfo={postsinfo} userinfo ={userinfo} onepostinfo={setonepostinfo} postsByTags={postsByTags} setPostsByTags={setPostsByTags}/>} />
-        <Route path="/boardpostform" element={<Boardpostform  />} />
-        <Route path="/create_post" element={<Create_post userinfo ={userinfo} tags={tags} />} />
-        <Route path="/myboard" element={<Myboard userinfo={userinfo} onepostinfo={setonepostinfo} postsByTags={postsByTags} setPostsByTags={setPostsByTags} />} />
-        <Route path="/post" element={<Post userinfo={userinfo}/>} />
-        <Route path="/commentsform" element={<Commentsform  />} />
-        <Route path="/editpost" element={<Editpost userinfo={userinfo} tags={tags} />} />
-      </Routes>
-    </div>
-  )
+                }}
+              >
+                Login
+                {onLoginModal ? <Login /> :null}
+              </Nav.Link> : <Nav.Link
+
+onClick={() => {
+  openLogoutHandler();
+}}
+>
+Logout
+</Nav.Link> }      
+
+            </Nav>
+          </Container>
+        </Navbar>
+        {isLogout ? <ModalBackdrop onClick={openLogoutHandler}>
+                    <ModalView onClick={(event) => {event.stopPropagation()}}>  
+        <center>
+        <br />
+        <div>
+        로그아웃 하시겠습니까?
+        </div>
+        <MypageBtn>          
+        <ModalBtn onClick={() => {openLogoutHandler();handleLogout()}}>
+           확인
+        </ModalBtn>
+        </MypageBtn>
+       </center>
+                  </ModalView>
+                  </ModalBackdrop> : null}              
+<Routes>
+    <Route path="/" element={<Main />}   userinfo = {userinfo} />
+    <Route path="/mypage" element={<Mypage userinfo ={userinfo} handleLogout={handleLogout} />} />
+    <Route path="/login" element={<Login handleResponseSuccess={handleResponseSuccess}/>} />
+    <Route path="/edit_profile" element={<Edit_profile userinfo={userinfo} />} />
+    <Route path="/board" element={<Board postsinfo={postsinfo} userinfo ={userinfo} onepostinfo={setonepostinfo} postsByTags={postsByTags} setPostsByTags={setPostsByTags}/>} />
+    <Route path="/boardpostform" element={<Boardpostform  />} />
+    <Route path="/create_post" element={<Create_post userinfo ={userinfo} tags={tags} />} />
+    <Route path="/myboard" element={<Myboard userinfo={userinfo} onepostinfo={setonepostinfo} postsByTags={postsByTags} setPostsByTags={setPostsByTags} />} />
+    <Route path="/post" element={<Post userinfo={userinfo}/>} />
+    <Route path="/commentsform" element={<Commentsform />} />
+    <Route path="/editpost" element={<Editpost userinfo={userinfo} tags={tags} />} />
+
+</Routes>
+</div>
+    )
 }
 
 export default App;

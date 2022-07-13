@@ -5,7 +5,7 @@ module.exports = (req, res) => {
         comment: req.body.comment
     }, {
         where: {
-            id: req.body.comment_id
+            id: req.params.commentsId
         }
     }).then(() => {
         res.json({ message: '수정 완료' })

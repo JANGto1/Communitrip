@@ -58,7 +58,7 @@ resize: none;
 
 export default function Create_post(props) {
   const [postInfo, setpostInfo] = useState({
-    user_id: props.userinfo.id,
+    user_id: `${props.userinfo.id}`,
     contents: '',
     title: '',
     tag_id: '',
@@ -68,31 +68,16 @@ export default function Create_post(props) {
     longitude: '',
     latitude: '',
   });
-  const [image, setImage] = useState({
-    image_file: "",
-    preview_URL: "",
-  });
+
   const [coordinate, setCoordinate] = useState("");
   const [tagName, setTagName] = useState('태그');
-  const [imageSrc, setImageSrc] = useState('');
-  const [content, setContent] = useState("");
-    const [uploadedImg, setUploadedImg] = useState({
-        fileName: "",
-        fillPath: ""
-    });
+  console.log(coordinate)
 
   const userId = props.userinfo.id
   const navigate= useNavigate();
   console.log(props.tags)
   console.log('렌더링...')
 
-  const inputRef = useRef();
-
-
-  const handleImage = (e) => {
-    console.log(e.target.files)
-    inputRef.current.click()
-  }
 
   const handleTags = (e) => {
     setTagName(e.name)
@@ -101,53 +86,32 @@ export default function Create_post(props) {
       console.log(tagId)
       return { ...e, tag_id: tagId }
     })
-    console.log(postInfo)
+    
   }
+  console.log(postInfo)
   
-  const preview = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        const img = reader.result;
-        console.log(img)
-        setImageSrc(reader.result);
-        setImage({
-          image_file: fileBlob.target.files[0],
-          preview_URL: img
-        })
-        setpostInfo((e) => {
-          return { ...e, image: img }
-        })
-        
-        resolve();
-      };
-    });
-  };
 
   const handlePostInfo = (key) => (e) => {
     setpostInfo({ ...postInfo, [key]: e.target.value });
   }
 
   const handlesucces = () => {
-    if(postInfo.user_id !== '' 
-    && postInfo.contents !== '' 
+    if(postInfo.contents !== '' 
     && postInfo.title !== '' 
     && postInfo.tag_id !== '' 
     // && postInfo.image !== '' 
-    && postInfo.longitude !== '' 
-    && postInfo.latitude !== ''
+    // && postInfo.longitude !== '' 
+    // && postInfo.latitude !== ''
     ) {
       axios.post(`${process.env.REACT_APP_API_URL}/posts/${userId}`, {
         user_id: postInfo.user_id,
         contents: postInfo.contents,
         title: postInfo.title,
-        tag_id: postInfo.tag_id,
-        total_likes: 0,
-        image: postInfo.image,
+        tag_id: `${postInfo.tag_id}`,
+        total_likes: "0",
         address: postInfo.address,
-        longitude: postInfo.longitude,
-        latitude: postInfo.latitude,
+        longitude: coordinate.longitude,
+        latitude: coordinate.latitude,
       }, {
         withCredentials: true
       }).then(

@@ -20,7 +20,7 @@ const SearchPlace = ({setCoordinate, setpostInfo, coordinate, postInfo}) => {
   const handlecoordinate =() => {
     const longitude = coordinate.x;
     const latitude = coordinate.y;
-    setpostInfo((e) => {
+    setCoordinate((e) => {
       return {...e, 
         longitude: longitude, 
         latitude: latitude }

@@ -1,14 +1,13 @@
 import React,{ useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
-import { checkPassword } from "./Signup/Validation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart} from "@fortawesome/free-regular-svg-icons";
 import Commentsform from "./Commentsform";
 import {Map, MapMarker} from 'react-kakao-maps-sdk'
-
+axios.defaults.withCredentials = true;
 
 export const Postimg = styled.img`
 flex: 1 1 100%;
@@ -32,12 +31,7 @@ width: 100%;
 border: 1px solid;
 float: left;
 `
-export const Editcomments = styled.button`
-float: right
-`
-export const Deletecomments = styled.button`
-float: right
-`
+
 
 export default function Post(props){
 const location =useLocation();
@@ -56,7 +50,7 @@ console.log(commentslist)
 console.log(likeuser)
 console.log(location.state.post.total_likes)
 const Getcomments=()=>{
-    axios.get(`posts/${location.state.post.id}/comments`).then((res)=>{ 
+    axios.get(`${process.env.REACT_APP_API_URL}/posts/${location.state.post.id}/comments`).then((res)=>{ 
         const testt = res.data.comments
         console.log(testt)    
         setcommentslist(testt)
@@ -65,7 +59,7 @@ const Getcomments=()=>{
           })
       }
 const Getlikes=()=>{
-    axios.get(`posts/${location.state.post.id}/likes`).then((res)=>{ 
+    axios.get(`${process.env.REACT_APP_API_URL}/posts/${location.state.post.id}/likes/${props.userinfo.id}`).then((res)=>{ 
         const like = res.data.data
         console.log(like)    
         setlikeuser(like)
@@ -75,7 +69,7 @@ const Getlikes=()=>{
       }
 
 const Postlikes=()=>{
-    axios.post(`posts/${location.state.post.id}/likes`,{
+    axios.post(`${process.env.REACT_APP_API_URL}/posts/${location.state.post.id}/likes`,{
         user_id: props.userinfo.id,
         post_id: location.state.post.id,
     }).then(Getlikes)
@@ -83,7 +77,7 @@ const Postlikes=()=>{
 
 const Postcomment=()=>{
 if(commentsinfo.comments !==''){
-    axios.post(`posts/${location.state.post.id}/comments`,{
+    axios.post(`${process.env.REACT_APP_API_URL}/posts/${location.state.post.id}/comments`,{
         user_id: props.userinfo.id,
         post_id: location.state.post.id,
         comment: commentsinfo.comments
@@ -107,7 +101,7 @@ return(
  <>
  <center>
   <h1>{location.state.post.title}</h1>
-  {props.userinfo.id===location.state.post.user_id ?
+  { props.userinfo.id===location.state.post.user_id ?
   <Editbutton onClick={() => {handlemoveeditpost(location.state.post)}}>
 게시물 수정 버튼
   </Editbutton> : null
@@ -134,12 +128,12 @@ style={{ width: "450px", height: "450px"}} level={4}>
 <div>{commentslist&&commentslist.map((posts) => {
    
                                 return (<Commentsforms>
-                                        <Commentsform
+                                        <Commentsform userid={userid}
                                             posts={posts}
                                             key={posts.id}
                                         />
-                                        <Deletecomments>삭제</Deletecomments>
-                                        <Editcomments>수정</Editcomments>
+                                        {console.log(posts)}
+                                         
                                         </Commentsforms>
                                 )
                             })   

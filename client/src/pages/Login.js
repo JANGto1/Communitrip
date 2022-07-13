@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef, Component } from 'react';
-import { Button } from 'react-bootstrap'
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
@@ -79,7 +78,7 @@ export default function Login ({ handleResponseSuccess }) {
 
 const responseKaKao = (res) => {
   console.log(res.profile.kakao_account)
-  axios.post(`/kakao/login`,{
+  axios.post(`${process.env.REACT_APP_API_URL}/kakao/login`,{
         data: res.profile.kakao_account
         
       },{
@@ -87,6 +86,7 @@ const responseKaKao = (res) => {
       }).then()
       alert('로그인 성공하였습니다')
       navigate('/')
+      window.location.reload()
       openModalHandler();
 };
 
@@ -117,13 +117,14 @@ const responseKaKao = (res) => {
   const handleLogin = () => {
     
     if(loginInfo.email !=='' && loginInfo.password !== ''){
-      axios.post(`/users/login`,{
+      axios.post(`${process.env.REACT_APP_API_URL}/users/login`,{
         email: loginInfo.email,
         password: loginInfo.password
       },{
         withCredentials: true
       }).then( handleResponseSuccess )
       navigate('/')
+      window.location.reload();
       openModalHandler();
     }else{
       setErrorMessage('이메일과 비밀번호를 입력하세요')
@@ -154,19 +155,7 @@ const responseKaKao = (res) => {
             />
           </div>
           <br /><br /><br /><br /><br /><br /><br /><br />
-          {/* <KaKaoBtn onClick={handlekakaoLogin}>카카오 로그인</KaKaoBtn> */}
-          {/* <button  onClick={() => {handlekakao()}} href="javascript:void(0)" >
-          <span>카카오 로그인</span>
-          </button>
-      
-         
-      
-  
-   <button onclick={handlekakaologout} href="javascript:void(0)">
-        
-            <span>카카오 로그아웃</span>
-        
-    </button> */}
+
     <KaKaoBtn
     //styled component 통해 style을 입혀 줄 예정 
                 jsKey={process.env.REACT_APP_KAKAOINIT}

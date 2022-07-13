@@ -1,9 +1,9 @@
 import React,{ useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
 import Boardpostform from './Boardpostform';
-
+axios.defaults.withCredentials = true;
 
 export const Allpage = styled.div`
 width : 99vw;
@@ -40,7 +40,6 @@ height: 90%;
 export const Postbutton = styled.button`
 float: right;
 `
-
 const OPTIONS = [
   { id: 1, value: "tags", name: "태그 선택" },
   { id: 2, value: "mountain", name: "산", post_id: "1" },
@@ -53,7 +52,7 @@ const SelectBox = (props) => {
   const [tags, setTags] = useState('')
 
   const handleTags = (e) => {
-      axios.get(`http://localhost:8080/tags/${e.target.value}`).then((result) => {
+      axios.get(`${process.env.REACT_APP_API_URL}/tags/${e.target.value}`).then((result) => {
           props.setPostsByTags(result)
           console.log(props.postsByTags)
       })
@@ -76,25 +75,26 @@ const SelectBox = (props) => {
 
 export default function Myboard(props){
   console.log(props.userinfo)
+  
   const navigate = useNavigate();
-  const [tests,settests]=useState()
+
   const [mypostsinfo, setmyPostsinfo]=useState();
   console.log(mypostsinfo)
   const isMyposts =() =>{
-      axios.get(`/posts/users/${props.userinfo.id}`).then((res)=>{ 
+      axios.get(`${process.env.REACT_APP_API_URL}/posts/users/${props.userinfo.id}`).then((res)=>{ 
         const info = res.data.data    
         setmyPostsinfo(info)
           }).catch(error =>{
             console.log(error)
           })
     }
-    const handlemovepost=(e)=>{
-      console.log(e)
-      navigate('/post',{state: {post:e}})
-        }
     useEffect(() => {
       isMyposts();
     }, [props.userinfo]);
+    const handlemovepost=(e)=>{
+        console.log(e)
+        navigate('/post',{state: {post:e}})
+          }
   return(
   <Allpage>
       <Options>
@@ -107,7 +107,7 @@ export default function Myboard(props){
         {props.postsByTags === '' ?
                             mypostsinfo && mypostsinfo.map(posts => {
                                 return (
-                                    <Boardbutton onClick={() => { settests(posts); handlemovepost(posts) }} >
+                                    <Boardbutton onClick={() => { handlemovepost(posts) }} >
                                         <Boardpostform
                                             posts={posts}
                                             key={posts.id}
@@ -117,7 +117,7 @@ export default function Myboard(props){
                             }) :
                             props.postsByTags.data.results.map((posts) => {
                                 return (
-                                    <Boardbutton onClick={() => { settests(posts); handlemovepost(posts) }} >
+                                    <Boardbutton onClick={() => { handlemovepost(posts) }} >
                                         <Boardpostform
                                             posts={posts}
                                             key={posts.id}

@@ -3,9 +3,9 @@ const { posts } = require('../../models')
 
 module.exports = (req, res) => {
     posts.update({
-        title: result.dataValues.title,
-        image: result.dataValues.image,
-        contents: result.dataValues.contents,
+        title: req.body.title,
+        tag_id: req.body.image,
+        contents: req.body.contents,
     }, {
         where: {
             id: req.params.postId

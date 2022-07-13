@@ -1,10 +1,7 @@
 import React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 
-// import { randomSaying, userinfo } from '../dummy.js';
-import axios from 'axios';
 
 export const Showpage = styled.div`
 width : 100vw;
@@ -60,7 +57,7 @@ export default function Main() {
       <Showpage>
       <center>
        <Views1 className='first_Main'>
-        <p>여행지 정보를 고유할 곳을 찾으셨나요?</p>
+        <p>여행지 정보를 공유할 곳을 찾으셨나요?</p>
         <div>
       <Img1 src="img/main1.png" />
     

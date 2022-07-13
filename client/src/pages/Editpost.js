@@ -1,9 +1,9 @@
 import React,{ useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 import {Dropdown, DropdownButton} from 'react-bootstrap';
 import styled from 'styled-components';
 import axios from 'axios';
-
+axios.defaults.withCredentials = true;
 
 
 const TitleInput = styled.input`
@@ -46,12 +46,30 @@ const handleTags = (e) => {
 const handleEditpostInfo = (key) =>(e) => {
     setEditpostinfo({ ...editpostinfo, [key]: e.target.value });
   }
-
+  const handlesucces = () => {
+    if(editpostinfo.contents !== '' 
+    && editpostinfo.title !== '' 
+    && editpostinfo.tag_id !== '' 
+    // && postInfo.image !== '' 
+    // && postInfo.longitude !== '' 
+    // && postInfo.latitude !== ''
+    ) {
+      axios.patch(`${process.env.REACT_APP_API_URL}/posts/${location.state.post.id}`, {
+        contents: editpostinfo.contents,
+        title: editpostinfo.title,
+        tag_id: `${editpostinfo.tag_id}`,
+      }, {
+        withCredentials: true
+      }).then(
+        navigate('/board')
+      )
+    }
+  }
     return(
         <>
         
 
-
+        <center>
 
         <div>제목</div>
         <TitleInput  type="text" onChange={handleEditpostInfo('title')} placeholder='제목을 입력해주세요'  />
@@ -72,9 +90,10 @@ const handleEditpostInfo = (key) =>(e) => {
     </Dropdownbtn>
         <div>글 작성</div>
       <input type="text" placeholder='글을 작성해주세요' onChange={handleEditpostInfo('contents')} />
-        
-
-        
+        <div>
+      <button onClick={handlesucces} >작성완료</button>
+      </div>
+      </center>
         </>
     )
 }

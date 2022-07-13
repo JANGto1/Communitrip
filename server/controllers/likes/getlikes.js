@@ -6,7 +6,8 @@ module.exports = (req, res) => {
             exclude: ['userId', 'postId']
         },
         where: {
-            post_id: req.params.postId
+            post_id: req.params.postId,
+            user_id: req.params.userId
         }
     }).then((result) => {
         if (!result) {
