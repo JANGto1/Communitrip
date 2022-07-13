@@ -56,7 +56,7 @@ console.log(commentslist)
 console.log(likeuser)
 console.log(location.state.post.total_likes)
 const Getcomments=()=>{
-    axios.get(`http://localhost:8080/posts/${location.state.post.id}/comments`).then((res)=>{ 
+    axios.get(`posts/${location.state.post.id}/comments`).then((res)=>{ 
         const testt = res.data.comments
         console.log(testt)    
         setcommentslist(testt)
@@ -65,7 +65,7 @@ const Getcomments=()=>{
           })
       }
 const Getlikes=()=>{
-    axios.get(`http://localhost:8080/posts/${location.state.post.id}/likes`).then((res)=>{ 
+    axios.get(`posts/${location.state.post.id}/likes`).then((res)=>{ 
         const like = res.data.data
         console.log(like)    
         setlikeuser(like)
@@ -75,7 +75,7 @@ const Getlikes=()=>{
       }
 
 const Postlikes=()=>{
-    axios.post(`http://localhost:8080/posts/${location.state.post.id}/likes`,{
+    axios.post(`posts/${location.state.post.id}/likes`,{
         user_id: props.userinfo.id,
         post_id: location.state.post.id,
     }).then(Getlikes)
@@ -83,7 +83,7 @@ const Postlikes=()=>{
 
 const Postcomment=()=>{
 if(commentsinfo.comments !==''){
-    axios.post(`http://localhost:8080/posts/${location.state.post.id}/comments`,{
+    axios.post(`posts/${location.state.post.id}/comments`,{
         user_id: props.userinfo.id,
         post_id: location.state.post.id,
         comment: commentsinfo.comments

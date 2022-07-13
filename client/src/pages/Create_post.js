@@ -3,7 +3,7 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 import styled from 'styled-components';
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import KakaoMap from '../components/Kakao_Map'
+import KakaoMap from '../components/SearchPlace'
 
 axios.defaults.withCredentials = true;
 
@@ -48,6 +48,12 @@ const PreviewDiv = styled.div`
     width: 300px;
     height: 300px;
   }
+`
+
+const Text = styled.textarea`
+width: 400px;
+height: 100px;
+resize: none;
 `
 
 export default function Create_post(props) {
@@ -173,7 +179,7 @@ export default function Create_post(props) {
       })}
     </Dropdownbtn>
     <div>글 작성</div>
-      <input type="text" placeholder='글을 작성해주세요' onChange={handlePostInfo('contents')} />
+      <Text  placeholder='글을 작성해주세요' onChange={handlePostInfo('contents')} />
     <div>지도</div>
       <KakaoMap setCoordinate={setCoordinate} setpostInfo={setpostInfo} coordinate={coordinate}/>
       <button onClick={handlesucces} >작성완료</button>

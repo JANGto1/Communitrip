@@ -63,6 +63,7 @@ export default function Main() {
         <p>여행지 정보를 고유할 곳을 찾으셨나요?</p>
         <div>
       <Img1 src="img/main1.png" />
+    
       </div>
       </Views1>
       <Views2 >
