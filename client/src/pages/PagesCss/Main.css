@@ -1,0 +1,61 @@
+.random-Saying-box {
+    margin: auto;
+    text-align: center;
+    width: 600px;
+    height: 450px;
+    margin-top: 100px;
+    background: #f5cd79;
+    border: 1px solid black;
+    border-radius: 20px;
+  }
+  
+  .random-Saying-List {
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid black;
+    margin: 70px;
+    background-color: white;
+  }
+  
+  .Saying {
+    margin-top: 20px;
+  }
+  
+  .random-Saying-greatman {
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid black;
+    margin-top: 50px;
+    margin-left: 150px;
+    margin-right: 150px;
+    background-color: white;
+  }
+  
+  .Mypage-Button {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .Wise-Saying-add {
+    margin-right: 300px;
+    height: 40px;
+    width: 150px;
+    color: black;
+  }
+  
+  .Another-Saying {
+    color: black;
+    height: 40px;
+    width: 150px;
+  }
+  
+  .login {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .loginButton {
+    width: 200px;
+    height: 50px;
+  }
+  

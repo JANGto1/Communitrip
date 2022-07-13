@@ -1,0 +1,41 @@
+#item-list-body {
+    background-color: #bc9eff0e;
+    padding: 5rem;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+  }
+  
+  #item-list-container {
+    display: table;
+    margin: 0 auto;
+    width: 100%;
+    height: calc(100vh - 4rem);
+  }
+  
+  #item-list-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    padding-bottom: 1rem;
+    margin: 0.5rem;
+  }
+  .item-img {
+    width: 210px;
+    height: 210px;
+    margin: 0.5rem;
+    border: 0.5px solid rgb(238, 238, 238);
+    object-fit: cover;
+  }
+  
+  .item-name {
+    float: left;
+    margin-left: 1rem;
+    font-weight: 400;
+  }
+  
+  .item-price {
+    float: right;
+    margin-right: 1rem;
+    font-weight: 700;
+  }
+
